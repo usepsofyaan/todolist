@@ -1,16 +1,31 @@
 "use client";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { supabase } from "../lib/supabase";
 
 export default function Home() {
-  const [kegiatan, setKegiatan] = useState("");
+  const [kegiatan, setKegiatan] = useState([]);
   const [daftarKegiatan, setDaftarKegiatan] = useState([]);
   const router = useRouter();
 
   const handleTambah = () => {
     router.push("/tambah"); // Arahkan ke screen tambah
   };
+
+  const fetchKegiatan = async () => {
+    const { data, error } = await supabase.from("kegiatan").select("*").order("created_at", { ascending: false });
+
+    if (error) {
+      console.error("Gagal ambil data:", error.message);
+    } else {
+      setKegiatan(data);
+    }
+  };
+
+  useEffect(() => {
+    fetchKegiatan();
+  }, []);
   return (
     <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
       <div className="p-8 max-w-md mx-auto">
@@ -21,13 +36,18 @@ export default function Home() {
           </button>
         </div>
 
-        <ul className="space-y-2">
-          {daftarKegiatan.map((item, index) => (
-            <li key={index} className="bg-gray-100 text-black p-4 rounded shadow-sm">
-              {item}
-            </li>
-          ))}
-        </ul>
+        <div className="p-2">
+          <h1 className="text-xl font-bold mb-4">Daftar To-Do</h1>
+          <ul className="space-y-2">
+            {kegiatan.map((item) => (
+              <li key={item.id} className="p-4 bg-gray-100 rounded">
+                <div className="font-semibold text-black">{item.nama}</div>
+                <div className="text-sm text-black">Waktu: {item.waktu}</div>
+                <div className="text-sm text-black">Prioritas: {item.prioritas}</div>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
       <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
         <a
