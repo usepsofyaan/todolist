@@ -22,6 +22,7 @@ export default function tambah() {
           nama: kegiatan,
           waktu,
           prioritas,
+          status: "Belum selesai",
         },
       ]);
 
