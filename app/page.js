@@ -56,10 +56,10 @@ export default function Home() {
 
   return (
     <div className="font-sans items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <div className="p-8 max-w-md mx-auto">
+      <div className="bg-[#268D8D] p-8 max-w-md mx-auto">
         <div className="flex items-center justify-between mb-2">
-          <div>
-            <p className="text-white text-lg font-semibold">Nama Pengguna</p>
+          <div className="bg-[#B2F3DF] p-2 rounded">
+            <p className="text-black text-lg font-semibold">Nama Pengguna</p>
             <p className="text-gray-500 text-sm">Jabatan</p>
           </div>
         </div>
@@ -74,8 +74,10 @@ export default function Home() {
           Hapus Semua Kegiatan
         </button>
 
-        <div className="p-2">
-          <h1 className="text-xl font-bold mb-4">Daftar To-Do</h1>
+        <div>
+          <div className="bg-white p-2 mb-2 rounded">
+            <h1 className="text-black font-bold">Daftar To-Do</h1>
+          </div>
 
           {/* Header Kolom */}
           <div className="bg-white grid grid-cols-3 font-semibold text-black px-4 py-2 border-b border-gray-300">
