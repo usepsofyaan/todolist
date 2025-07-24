@@ -13,6 +13,21 @@ export default function Home() {
     router.push("/tambah"); // Arahkan ke screen tambah
   };
 
+  const handleHapusSemua = async () => {
+    const konfirmasi = confirm("Yakin ingin menghapus semua kegiatan?");
+    if (!konfirmasi) return;
+
+    const { error } = await supabase.from("kegiatan").delete().not("id", "is", null);
+
+    if (error) {
+      console.error("Gagal menghapus data:", error.message);
+      alert("Gagal menghapus semua kegiatan");
+    } else {
+      setKegiatan([]); // kosongkan data di UI
+      alert("Semua kegiatan berhasil dihapus");
+    }
+  };
+
   const fetchKegiatan = async () => {
     const { data, error } = await supabase.from("kegiatan").select("*").order("created_at", { ascending: false });
 
@@ -36,14 +51,27 @@ export default function Home() {
           </button>
         </div>
 
+        <button type="button" onClick={handleHapusSemua} className="bg-red-600 text-white px-5 py-2 rounded mb-4 hover:bg-red-700">
+          Hapus Semua Kegiatan
+        </button>
+
         <div className="p-2">
           <h1 className="text-xl font-bold mb-4">Daftar To-Do</h1>
-          <ul className="space-y-2">
+
+          {/* Header Kolom */}
+          <div className="bg-white grid grid-cols-3 font-semibold text-black px-4 py-2 border-b border-gray-300">
+            <div className="text-black">Kegiatan</div>
+            <div className="text-black">Prioritas</div>
+            <div className="text-black">Status</div>
+          </div>
+
+          {/* Daftar Item */}
+          <ul className="divide-y divide-gray-200">
             {kegiatan.map((item) => (
-              <li key={item.id} className="p-4 bg-gray-100 rounded">
-                <div className="font-semibold text-black">{item.nama}</div>
-                <div className="text-sm text-black">Waktu: {item.waktu}</div>
-                <div className="text-sm text-black">Prioritas: {item.prioritas}</div>
+              <li key={item.id} className="grid grid-cols-3 px-4 py-3 bg-gray-100 rounded">
+                <div className="text-black">{item.nama}</div>
+                <div className="text-black">{item.prioritas}</div>
+                <div className="text-black">{item.status || "Belum selesai"}</div>
               </li>
             ))}
           </ul>
