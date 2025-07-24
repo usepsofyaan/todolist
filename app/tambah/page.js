@@ -13,7 +13,6 @@ export default function tambah() {
 
   const tambahKegiatan = async () => {
     if (!kegiatan.trim() || !waktu.trim() || !prioritas.trim()) return;
-
     setLoading(true);
 
     const { data, error } = await supabase
@@ -44,9 +43,22 @@ export default function tambah() {
   return (
     <div className="p-8 space-y-4">
       <input type="text" placeholder="Masukkan nama kegiatan" className="w-full border border-gray-300 p-3 rounded" value={kegiatan} onChange={(e) => setKegiatan(e.target.value)} />
-      <input type="text" placeholder="Waktu" className="w-full border border-gray-300 p-3 rounded" value={waktu} onChange={(e) => setWaktu(e.target.value)} />
-      <input type="text" placeholder="Prioritas" className="w-full border border-gray-300 p-3 rounded" value={prioritas} onChange={(e) => setPrioritas(e.target.value)} />
-      <button type="button" onClick={tambahKegiatan} className="bg-black text-white px-5 py-2 rounded disabled:opacity-50" disabled={loading}>
+      <input type="date-time-local" placeholder="Waktu" className="w-full border border-gray-300 p-3 rounded" value={waktu} onChange={(e) => setWaktu(e.target.value)} />
+      <select className="w-full border border-gray-300 p-3 rounded" value={prioritas} onChange={(e) => setPrioritas(e.target.value)}>
+        <option className="text-black" value="">
+          Pilih Prioritas
+        </option>
+        <option className="text-black" value="Low">
+          Low
+        </option>
+        <option className="text-black" value="Medium">
+          Medium
+        </option>
+        <option className="text-black" value="High">
+          High
+        </option>
+      </select>
+      <button type="button" onClick={tambahKegiatan} className="bg-white text-black px-5 py-2 rounded disabled:opacity-50" disabled={loading}>
         {loading ? "Menyimpan..." : "Tambah Kegiatan"}
       </button>
     </div>
