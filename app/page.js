@@ -57,6 +57,12 @@ export default function Home() {
   return (
     <div className="font-sans items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
       <div className="p-8 max-w-md mx-auto">
+        <div className="flex items-center justify-between mb-2">
+          <div>
+            <p className="text-white text-lg font-semibold">Nama Pengguna</p>
+            <p className="text-gray-500 text-sm">Jabatan</p>
+          </div>
+        </div>
         <div className="flex gap-2 mb-4">
           <input type="text" className="flex-1 bg-white text-black border border-[#D9D9D9] p-4 rounded" placeholder="Masukkan kegiatan kamu" />
           <button type="button" onClick={handleTambah} className="bg-black text-white px-5 rounded">
