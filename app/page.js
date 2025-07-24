@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "../lib/supabase";
@@ -55,87 +54,69 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="font-sans items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <div className="bg-[#268D8D] p-8 max-w-md mx-auto">
-        <div className="flex items-center justify-between mb-2">
-          <div className="bg-[#B2F3DF] p-2 rounded">
-            <p className="text-black text-lg font-semibold">Nama Pengguna</p>
-            <p className="text-gray-500 text-sm">Jabatan</p>
+    <div className="min-h-screen bg-black font-sans px-4 py-6">
+      <div className="mb-6 text-center">
+        <h1 className="text-[24px] md:text-[32px] font-bold">TO DO APP</h1>
+      </div>
+
+      <div className="bg-[#268D8D] p-4 md:p-8 w-full max-w-md md:max-w-xl mx-auto rounded-lg">
+        {/* Info Pengguna */}
+        <div className="flex items-center justify-between mb-4">
+          <div className="bg-[#B2F3DF] p-3 md:p-4 rounded w-full">
+            <p className="text-black text-[12px] md:text-[18px] font-semibold">Nama Pengguna</p>
+            <p className="text-gray-500 text-[10px] md:text-[16px]">Jabatan</p>
           </div>
         </div>
-        <div className="flex gap-2 mb-4">
-          <input type="text" className="flex-1 bg-white text-black border border-[#D9D9D9] p-4 rounded" placeholder="Masukkan kegiatan kamu" />
-          <button type="button" onClick={handleTambah} className="bg-black text-white px-5 rounded">
+
+        {/* Input dan Tambah */}
+        <div className="flex flex-col md:flex-row gap-2 mb-4">
+          <input type="text" className="flex-1 bg-white text-black border border-[#D9D9D9] p-4 rounded placeholder:text-[12px] md:placeholder:text-[18px]" placeholder="Masukkan kegiatan kamu" />
+          <button type="button" onClick={handleTambah} className="bg-black text-white px-5 py-2 rounded">
             +
           </button>
         </div>
 
-        <button type="button" onClick={handleHapusSemua} className="bg-red-600 text-white px-5 py-2 rounded mb-4 hover:bg-red-700">
+        {/* Tombol Hapus Semua */}
+        <button type="button" onClick={handleHapusSemua} className="bg-red-600 text-white px-5 py-2 rounded mb-4 hover:bg-red-700 w-full md:w-auto">
           Hapus Semua Kegiatan
         </button>
 
+        {/* Daftar To-Do */}
         <div>
           <div className="bg-white p-2 mb-2 rounded">
-            <h1 className="text-black font-bold">Daftar To-Do</h1>
+            <h2 className="text-black font-bold text-center">Daftar To-Do</h2>
           </div>
 
           {/* Header Kolom */}
-          <div className="bg-white grid grid-cols-3 font-semibold text-black px-4 py-2 border-b border-gray-300">
-            <div className="text-black">Kegiatan</div>
-            <div className="text-black">Prioritas</div>
-            <div className="text-black">Status</div>
+          <div className="hidden sm:grid grid-cols-3 font-semibold text-black px-4 py-2 border-b border-gray-300 bg-white">
+            <div>Kegiatan</div>
+            <div>Prioritas</div>
+            <div>Status</div>
           </div>
 
           {/* Daftar Item */}
           <ul className="divide-y divide-gray-200">
             {kegiatan.map((item) => (
-              <li key={item.id} className="grid grid-cols-3 px-4 py-3 bg-gray-100 rounded items-center">
+              <li key={item.id} className="grid grid-cols-1 sm:grid-cols-3 gap-2 px-4 py-3 bg-gray-100 rounded items-start sm:items-center">
+                {/* Kolom Kegiatan */}
                 <div>
-                  {/* Hari dan Tanggal */}
                   <div className="text-xs text-black">{item.tanggal}</div>
-
-                  {/* Checkbox dan Nama */}
                   <div className="flex items-center gap-2">
                     <input type="checkbox" checked={item.status === "done"} onChange={() => handleToggleStatus(item.id, item.status)} />
                     <span className={item.status === "done" ? "line-through text-gray-500" : "text-black"}>{item.nama}</span>
                   </div>
                 </div>
+
+                {/* Kolom Prioritas */}
                 <div className="text-black">{item.prioritas}</div>
+
+                {/* Kolom Status */}
                 <div className="text-black">{item.status === "done" ? "Done" : "Belum selesai"}</div>
               </li>
             ))}
           </ul>
         </div>
       </div>
-      {/* <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image aria-hidden src="/file.svg" alt="File icon" width={16} height={16} />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image aria-hidden src="/window.svg" alt="Window icon" width={16} height={16} />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image aria-hidden src="/globe.svg" alt="Globe icon" width={16} height={16} />
-          Go to nextjs.org →
-        </a>
-      </footer> */}
     </div>
   );
 }
