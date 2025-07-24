@@ -15,16 +15,23 @@ export default function tambah() {
     if (!kegiatan.trim() || !waktu.trim() || !prioritas.trim()) return;
     setLoading(true);
 
-    const { data, error } = await supabase
-      .from("kegiatan") // Ganti sesuai nama tabel kamu
-      .insert([
-        {
-          nama: kegiatan,
-          waktu,
-          prioritas,
-          status: "Belum selesai",
-        },
-      ]);
+    // Ambil tanggal dan hari saat ini
+    const now = new Date();
+    const options = { weekday: "long", year: "numeric", month: "long", day: "numeric" };
+
+    const hari = now.toLocaleDateString("id-ID", { weekday: "long" }); // contoh: Senin
+    const tanggal = now.toLocaleDateString("id-ID", options); // contoh: Senin, 21 Juli 2025
+
+    const { data, error } = await supabase.from("kegiatan").insert([
+      {
+        nama: kegiatan,
+        waktu,
+        prioritas,
+        status: "Belum selesai",
+        hari,
+        tanggal,
+      },
+    ]);
 
     setLoading(false);
 
@@ -34,7 +41,6 @@ export default function tambah() {
       return;
     }
 
-    // Reset input dan kembali ke home
     setKegiatan("");
     setWaktu("");
     setPrioritas("");

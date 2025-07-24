@@ -58,7 +58,7 @@ export default function Home() {
     <div className="font-sans items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
       <div className="p-8 max-w-md mx-auto">
         <div className="flex gap-2 mb-4">
-          <input type="text" className="flex-1 bg-white text-black border border-[#D9D9D9] p-4 rounded" placeholder="Masukkan kegiatan kamu" value={kegiatan} onChange={(e) => setKegiatan(e.target.value)} />
+          <input type="text" className="flex-1 bg-white text-black border border-[#D9D9D9] p-4 rounded" placeholder="Masukkan kegiatan kamu" />
           <button type="button" onClick={handleTambah} className="bg-black text-white px-5 rounded">
             +
           </button>
@@ -82,9 +82,15 @@ export default function Home() {
           <ul className="divide-y divide-gray-200">
             {kegiatan.map((item) => (
               <li key={item.id} className="grid grid-cols-3 px-4 py-3 bg-gray-100 rounded items-center">
-                <div className="flex items-center gap-2">
-                  <input type="checkbox" checked={item.status === "done"} onChange={() => handleToggleStatus(item.id, item.status)} />
-                  <span className={item.status === "done" ? "line-through text-gray-500" : "text-black"}>{item.nama}</span>
+                <div>
+                  {/* Hari dan Tanggal */}
+                  <div className="text-xs text-black">{item.tanggal}</div>
+
+                  {/* Checkbox dan Nama */}
+                  <div className="flex items-center gap-2">
+                    <input type="checkbox" checked={item.status === "done"} onChange={() => handleToggleStatus(item.id, item.status)} />
+                    <span className={item.status === "done" ? "line-through text-gray-500" : "text-black"}>{item.nama}</span>
+                  </div>
                 </div>
                 <div className="text-black">{item.prioritas}</div>
                 <div className="text-black">{item.status === "done" ? "Done" : "Belum selesai"}</div>
