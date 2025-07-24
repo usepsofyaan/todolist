@@ -38,9 +38,22 @@ export default function Home() {
     }
   };
 
+  const handleToggleStatus = async (id, currentStatus) => {
+    const newStatus = currentStatus === "done" ? "Belum selesai" : "done";
+
+    const { error } = await supabase.from("kegiatan").update({ status: newStatus }).eq("id", id);
+
+    if (error) {
+      console.error("Gagal mengubah status:", error.message);
+    } else {
+      fetchKegiatan(); // Refresh data dari Supabase
+    }
+  };
+
   useEffect(() => {
     fetchKegiatan();
   }, []);
+
   return (
     <div className="font-sans items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
       <div className="p-8 max-w-md mx-auto">
@@ -68,10 +81,13 @@ export default function Home() {
           {/* Daftar Item */}
           <ul className="divide-y divide-gray-200">
             {kegiatan.map((item) => (
-              <li key={item.id} className="grid grid-cols-3 px-4 py-3 bg-gray-100 rounded">
-                <div className="text-black">{item.nama}</div>
+              <li key={item.id} className="grid grid-cols-3 px-4 py-3 bg-gray-100 rounded items-center">
+                <div className="flex items-center gap-2">
+                  <input type="checkbox" checked={item.status === "done"} onChange={() => handleToggleStatus(item.id, item.status)} />
+                  <span className={item.status === "done" ? "line-through text-gray-500" : "text-black"}>{item.nama}</span>
+                </div>
                 <div className="text-black">{item.prioritas}</div>
-                <div className="text-black">{item.status || "Belum selesai"}</div>
+                <div className="text-black">{item.status === "done" ? "Done" : "Belum selesai"}</div>
               </li>
             ))}
           </ul>
