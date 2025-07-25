@@ -51,7 +51,7 @@ export default function tambah() {
     <div className="p-8 space-y-4">
       <input type="text" placeholder="Masukkan nama kegiatan" className="w-full border border-gray-300 p-3 rounded" value={kegiatan} onChange={(e) => setKegiatan(e.target.value)} />
       <input type="date-time-local" placeholder="Waktu" className="w-full border border-gray-300 p-3 rounded" value={waktu} onChange={(e) => setWaktu(e.target.value)} />
-      <select className="w-full border border-gray-300 p-3 rounded" value={prioritas} onChange={(e) => setPrioritas(e.target.value)}>
+      <select className="w-full border border-gray-300 p-3 rounded text-[12px] md:text-[16px]" value={prioritas} onChange={(e) => setPrioritas(e.target.value)}>
         <option className="text-black" value="">
           Pilih Prioritas
         </option>
